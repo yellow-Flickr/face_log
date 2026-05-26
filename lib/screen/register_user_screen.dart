@@ -47,7 +47,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
   }
 
   Future<void> _captureFace() async {
-    if (_nameController.text.trim().isEmpty || _idController.text.trim().isEmpty) {
+    if (_nameController.text.trim().isEmpty ||
+        _idController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill in name and employee ID')),
       );
@@ -90,10 +91,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
           elevation: 0,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(1),
-            child: Container(
-              height: 1,
-              color: LumenLightColors.outlineVariant,
-            ),
+            child: Container(height: 1, color: LumenLightColors.outlineVariant),
           ),
         ),
         body: SafeArea(
@@ -160,9 +158,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: double.infinity,
-                    errorBuilder: (_, __, ___) => Container(
-                      color: Colors.black87,
-                    ),
+                    errorBuilder: (_, _, _) => Container(color: Colors.black87),
                   ),
 
                   // Oval guide + scan line + brackets
@@ -205,7 +201,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: LumenLightColors.primary.withValues(alpha: 0.6),
+                                      color: LumenLightColors.primary
+                                          .withValues(alpha: 0.6),
                                       blurRadius: 8,
                                     ),
                                   ],
@@ -216,10 +213,26 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
                         ),
 
                         // Corner brackets
-                        Positioned(top: 40, left: 40, child: _CornerBracket(topLeft: true)),
-                        Positioned(top: 40, right: 40, child: _CornerBracket(topRight: true)),
-                        Positioned(bottom: 40, left: 40, child: _CornerBracket(bottomLeft: true)),
-                        Positioned(bottom: 40, right: 40, child: _CornerBracket(bottomRight: true)),
+                        Positioned(
+                          top: 40,
+                          left: 40,
+                          child: _CornerBracket(topLeft: true),
+                        ),
+                        Positioned(
+                          top: 40,
+                          right: 40,
+                          child: _CornerBracket(topRight: true),
+                        ),
+                        Positioned(
+                          bottom: 40,
+                          left: 40,
+                          child: _CornerBracket(bottomLeft: true),
+                        ),
+                        Positioned(
+                          bottom: 40,
+                          right: 40,
+                          child: _CornerBracket(bottomRight: true),
+                        ),
                       ],
                     ),
                   ),
@@ -234,7 +247,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.92),
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: LumenLightColors.outlineVariant),
+                        border: Border.all(
+                          color: LumenLightColors.outlineVariant,
+                        ),
                       ),
                       child: Column(
                         children: [
@@ -247,7 +262,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
                               ),
                               Text(
                                 'Good quality',
-                                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                style: Theme.of(context).textTheme.labelMedium
+                                    ?.copyWith(
                                       color: LumenLightColors.secondary,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -278,8 +294,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
           'Position your face within the oval. Ensure you are in a well-lit environment for optimal recognition.',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: LumenLightColors.onSurfaceVariant,
-              ),
+            color: LumenLightColors.onSurfaceVariant,
+          ),
         ),
       ],
     );
@@ -320,16 +336,16 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
           Text(
             'Employee Registration',
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                ),
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             'Complete your profile to enable facial attendance.',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: LumenLightColors.onSurfaceVariant,
-                ),
+              color: LumenLightColors.onSurfaceVariant,
+            ),
           ),
           const SizedBox(height: 20),
 
@@ -357,22 +373,30 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
               Text(
                 'Department',
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: LumenLightColors.onSurfaceVariant,
-                    ),
+                  color: LumenLightColors.onSurfaceVariant,
+                ),
               ),
               const SizedBox(height: 6),
               DropdownButtonFormField<String>(
-                value: _selectedDepartment,
+                initialValue: _selectedDepartment,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.corporate_fare, size: 20),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: LumenLightColors.outlineVariant),
+                    borderSide: BorderSide(
+                      color: LumenLightColors.outlineVariant,
+                    ),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 14,
+                  ),
                 ),
                 items: _departments
-                    .map((dept) => DropdownMenuItem(value: dept, child: Text(dept)))
+                    .map(
+                      (dept) =>
+                          DropdownMenuItem(value: dept, child: Text(dept)),
+                    )
                     .toList(),
                 onChanged: (val) => setState(() => _selectedDepartment = val!),
               ),
@@ -390,23 +414,32 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
               icon: _isSuccess
                   ? const Icon(Icons.check, color: Colors.white)
                   : _isCapturing
-                      ? const SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                        )
-                      : const Icon(Icons.photo_camera),
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                  : const Icon(Icons.photo_camera),
               label: Text(
                 _isSuccess
                     ? 'Enrolled Successfully'
                     : _isCapturing
-                        ? 'Processing...'
-                        : 'Capture Face',
+                    ? 'Processing...'
+                    : 'Capture Face',
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: _isSuccess ? LumenLightColors.secondary : LumenLightColors.primaryContainer,
-                foregroundColor: _isSuccess ? Colors.white : LumenLightColors.onPrimaryContainer,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                backgroundColor: _isSuccess
+                    ? LumenLightColors.secondary
+                    : LumenLightColors.primaryContainer,
+                foregroundColor: _isSuccess
+                    ? Colors.white
+                    : LumenLightColors.onPrimaryContainer,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
               ),
             ),
           ),
@@ -427,8 +460,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
         Text(
           label,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: LumenLightColors.onSurfaceVariant,
-              ),
+            color: LumenLightColors.onSurfaceVariant,
+          ),
         ),
         const SizedBox(height: 6),
         TextFormField(
@@ -440,7 +473,10 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(color: LumenLightColors.outlineVariant),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 14,
+            ),
           ),
         ),
       ],
@@ -479,15 +515,35 @@ class _BracketPainter extends CustomPainter {
     }
     if (topRight) {
       canvas.drawLine(Offset(size.width, 0), Offset(size.width, length), paint);
-      canvas.drawLine(Offset(size.width, 0), Offset(size.width - length, 0), paint);
+      canvas.drawLine(
+        Offset(size.width, 0),
+        Offset(size.width - length, 0),
+        paint,
+      );
     }
     if (bottomLeft) {
-      canvas.drawLine(Offset(0, size.height), Offset(0, size.height - length), paint);
-      canvas.drawLine(Offset(0, size.height), Offset(length, size.height), paint);
+      canvas.drawLine(
+        Offset(0, size.height),
+        Offset(0, size.height - length),
+        paint,
+      );
+      canvas.drawLine(
+        Offset(0, size.height),
+        Offset(length, size.height),
+        paint,
+      );
     }
     if (bottomRight) {
-      canvas.drawLine(Offset(size.width, size.height), Offset(size.width, size.height - length), paint);
-      canvas.drawLine(Offset(size.width, size.height), Offset(size.width - length, size.height), paint);
+      canvas.drawLine(
+        Offset(size.width, size.height),
+        Offset(size.width, size.height - length),
+        paint,
+      );
+      canvas.drawLine(
+        Offset(size.width, size.height),
+        Offset(size.width - length, size.height),
+        paint,
+      );
     }
   }
 

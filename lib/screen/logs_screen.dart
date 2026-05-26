@@ -36,7 +36,7 @@ class _LogsScreenState extends State<LogsScreen> {
       time: '09:45 AM',
       status: _LogStatus.remote,
       avatarUrl:
-          'https://lh3.googleusercontent.com/aida-public/AB6AXuDxfPhvM1lV_-GWEkfWShcytKd8WouRNTFw7PMHfG-92W22iCQqPw3L2teUz3QQDv0NhcG-ajgeeglI8ungeoWoUSizpJTPSvMUpdstMdd5wpjenJ945pJ0zBIEitTpx8tv6yAI1PmtcAPYZjAbvn_RsUgecNbRchOwsc2tkmEcUsivzEp-0a6MZv5ddYwlHsGaSu115rI_nxIksSwPT5m9kbGECqJ4y0XrGknFz795ss6yONA28VshEecYj5xRc86NPR9oDj47mSE',
+          'https://lh3.googleusercontent.com/aida-public/AB6AXuDxfPhvM1lV_-GWEkfWShcytKd8WouRNTFw7PMHfG-92W22iCQqPw3L2LteUz3QQDv0NhcG-ajgeeglI8ungeoWoUSizpJTPSvMUpdstMdd5wpjenJ945pJ0zBIEitTpx8tv6yAI1PmtcAPYZjAbvn_RsUgecNbRchOwsc2tkmEcUsivzEp-0a6MZv5ddYwlHsGaSu115rI_nxIksSwPT5m9kbGECqJ4y0XrGknFz795ss6yONA28VshEecYj5xRc86NPR9oDj47mSE',
     ),
   ];
 
@@ -91,8 +91,8 @@ class _LogsScreenState extends State<LogsScreen> {
           child: FloatingActionButton(
             heroTag: 'logs-fab',
             onPressed: () => context.go('/home'),
-            backgroundColor: LumenDarkColors.primary,
-            foregroundColor: LumenDarkColors.onPrimary,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
             elevation: 8,
             child: const Icon(Icons.photo_camera, size: 28),
           ),
@@ -121,9 +121,9 @@ class _StatsBento extends StatelessWidget {
         height: 128,
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: LumenDarkColors.surface.withValues(alpha: 0.6),
+          color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.6),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+          border: Border.all(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)),
         ),
         child: Stack(
           children: [
@@ -132,7 +132,7 @@ class _StatsBento extends StatelessWidget {
               right: 0,
               child: Opacity(
                 opacity: 0.1,
-                child: Icon(icon, size: 56, color: LumenDarkColors.onSurface),
+                child: Icon(icon, size: 56, color: Theme.of(context).colorScheme.onSurface),
               ),
             ),
             Column(
@@ -141,7 +141,7 @@ class _StatsBento extends StatelessWidget {
                 Text(
                   title,
                   style: tt.labelMedium?.copyWith(
-                    color: LumenDarkColors.onSurfaceVariant,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                     letterSpacing: 1.2,
                   ),
                 ),
@@ -151,7 +151,7 @@ class _StatsBento extends StatelessWidget {
                     value,
                     style: tt.displaySmall?.copyWith(
                       fontSize: 32,
-                      color: LumenDarkColors.primary,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   )
                 else
@@ -163,14 +163,14 @@ class _StatsBento extends StatelessWidget {
                         value,
                         style: tt.displaySmall?.copyWith(
                           fontSize: 32,
-                          color: LumenDarkColors.secondary,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                       const SizedBox(width: 6),
                       Text(
                         subtitle,
                         style: tt.labelMedium?.copyWith(
-                          color: LumenDarkColors.onSurfaceVariant,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ],
@@ -207,7 +207,6 @@ class _StatsBento extends StatelessWidget {
 
 class _CustomTabBar extends StatelessWidget {
   const _CustomTabBar({
-    super.key,
     required this.activeTab,
     required this.onTabChanged,
   });
@@ -230,7 +229,7 @@ class _CustomTabBar extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
               color: isActive
-                  ? LumenDarkColors.primaryContainer
+                  ? Theme.of(context).colorScheme.primaryContainer
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(12),
             ),
@@ -239,8 +238,8 @@ class _CustomTabBar extends StatelessWidget {
               label,
               style: tt.labelMedium?.copyWith(
                 color: isActive
-                    ? LumenDarkColors.onPrimaryContainer
-                    : LumenDarkColors.onSurfaceVariant,
+                    ? Theme.of(context).colorScheme.onPrimaryContainer
+                    : Theme.of(context).colorScheme.onSurfaceVariant,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
               ),
             ),
@@ -252,10 +251,10 @@ class _CustomTabBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: LumenDarkColors.surfaceContainer,
+        color: Theme.of(context).colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: LumenDarkColors.outlineVariant.withValues(alpha: 0.3),
+          color: Theme.of(context).colorScheme.outlineVariant.withValues(alpha: 0.3),
         ),
       ),
       child: Row(
@@ -273,7 +272,7 @@ class _CustomTabBar extends StatelessWidget {
 // ──────────────────────────────────────────────────────────────────────────────
 
 class _TodayTab extends StatelessWidget {
-  const _TodayTab({super.key, required this.entries, required this.onDelete});
+  const _TodayTab({required this.entries, required this.onDelete});
 
   final List<_LogEntry> entries;
   final void Function(int index) onDelete;
@@ -295,7 +294,7 @@ class _TodayTab extends StatelessWidget {
           background: Container(
             margin: const EdgeInsets.only(bottom: 8),
             decoration: BoxDecoration(
-              color: LumenDarkColors.errorContainer,
+              color: Theme.of(context).colorScheme.errorContainer,
               borderRadius: BorderRadius.circular(16),
             ),
             alignment: Alignment.centerRight,
@@ -311,7 +310,7 @@ class _TodayTab extends StatelessWidget {
 }
 
 class _LogListItem extends StatelessWidget {
-  const _LogListItem({super.key, required this.entry});
+  const _LogListItem({required this.entry});
 
   final _LogEntry entry;
 
@@ -320,18 +319,18 @@ class _LogListItem extends StatelessWidget {
     final tt = Theme.of(context).textTheme;
 
     final (chipText, chipColor) = switch (entry.status) {
-      _LogStatus.punctual => ('PUNCTUAL', LumenDarkColors.secondary),
-      _LogStatus.late => ('LATE', LumenDarkColors.error),
-      _LogStatus.remote => ('REMOTE', LumenDarkColors.tertiary),
+      _LogStatus.punctual => ('PUNCTUAL', Theme.of(context).colorScheme.secondary),
+      _LogStatus.late => ('LATE', Theme.of(context).colorScheme.error),
+      _LogStatus.remote => ('REMOTE', Theme.of(context).colorScheme.tertiary),
     };
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: LumenDarkColors.surfaceContainerLow,
+        color: Theme.of(context).colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
+        border: Border.all(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.06)),
       ),
       child: Row(
         children: [
@@ -346,7 +345,7 @@ class _LogListItem extends StatelessWidget {
               errorBuilder: (_, _, _) => Container(
                 width: 48,
                 height: 48,
-                color: LumenDarkColors.surfaceContainerHigh,
+                color: Theme.of(context).colorScheme.surfaceContainerHigh,
                 child: const Icon(Icons.person, color: Colors.white30),
               ),
             ),
@@ -365,16 +364,16 @@ class _LogListItem extends StatelessWidget {
                 const SizedBox(height: 2),
                 Row(
                   children: [
-                    const Icon(
+                      Icon(
                       Icons.schedule,
                       size: 14,
-                      color: LumenDarkColors.onSurfaceVariant,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                     const SizedBox(width: 4),
                     Text(
                       entry.time,
                       style: tt.labelMedium?.copyWith(
-                        color: LumenDarkColors.onSurfaceVariant,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                     ),
                   ],
@@ -433,7 +432,7 @@ class _EmptyState extends StatelessWidget {
           Text(
             'Attendance logs will appear here once biometric scans are completed.',
             style: tt.bodyMedium?.copyWith(
-              color: LumenDarkColors.onSurfaceVariant,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
             textAlign: TextAlign.center,
           ),
@@ -448,7 +447,7 @@ class _EmptyState extends StatelessWidget {
 // ──────────────────────────────────────────────────────────────────────────────
 
 class _HistoryTab extends StatelessWidget {
-  const _HistoryTab({super.key});
+  const _HistoryTab();
 
   @override
   Widget build(BuildContext context) {
@@ -465,22 +464,22 @@ class _HistoryTab extends StatelessWidget {
                   hintText: 'Search logs...',
                   prefixIcon: const Icon(Icons.search, size: 20),
                   filled: true,
-                  fillColor: LumenDarkColors.surfaceContainer,
+                  fillColor: Theme.of(context).colorScheme.surfaceContainer,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
                     borderSide: BorderSide(
-                      color: LumenDarkColors.outlineVariant,
+                      color: Theme.of(context).colorScheme.outlineVariant,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
                     borderSide: BorderSide(
-                      color: LumenDarkColors.outlineVariant,
+                      color: Theme.of(context).colorScheme.outlineVariant,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: LumenDarkColors.primary),
+                    borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
                   ),
                   contentPadding: const EdgeInsets.symmetric(vertical: 12),
                 ),
@@ -489,13 +488,13 @@ class _HistoryTab extends StatelessWidget {
             const SizedBox(width: 8),
             Container(
               decoration: BoxDecoration(
-                color: LumenDarkColors.surfaceContainer,
+                color: Theme.of(context).colorScheme.surfaceContainer,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: LumenDarkColors.outlineVariant),
+                border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
               ),
               child: IconButton(
                 icon: const Icon(Icons.calendar_today),
-                color: LumenDarkColors.primary,
+                color: Theme.of(context).colorScheme.primary,
                 onPressed: () {},
               ),
             ),
@@ -513,8 +512,8 @@ class _HistoryTab extends StatelessWidget {
             icon: const Icon(Icons.download),
             label: const Text('Export Attendance (CSV)'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: LumenDarkColors.primary,
-              foregroundColor: LumenDarkColors.onPrimary,
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
@@ -528,7 +527,7 @@ class _HistoryTab extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             border: Border(
-              left: BorderSide(color: LumenDarkColors.outlineVariant, width: 2),
+              left: BorderSide(color: Theme.of(context).colorScheme.outlineVariant, width: 2),
             ),
           ),
           padding: const EdgeInsets.only(left: 24),
@@ -555,7 +554,6 @@ class _HistoryTab extends StatelessWidget {
 
 class _TimelineItem extends StatelessWidget {
   const _TimelineItem({
-    super.key,
     required this.date,
     required this.count,
     required this.isToday,
@@ -579,10 +577,10 @@ class _TimelineItem extends StatelessWidget {
           margin: const EdgeInsets.only(top: 4, right: 16),
           decoration: BoxDecoration(
             color: isToday
-                ? LumenDarkColors.primary
-                : LumenDarkColors.outlineVariant,
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.outlineVariant,
             shape: BoxShape.circle,
-            border: Border.all(color: LumenDarkColors.background, width: 4),
+            border: Border.all(color: Theme.of(context).colorScheme.background, width: 4),
           ),
         ),
         Expanded(
@@ -593,8 +591,8 @@ class _TimelineItem extends StatelessWidget {
                 date,
                 style: tt.labelMedium?.copyWith(
                   color: isToday
-                      ? LumenDarkColors.primary
-                      : LumenDarkColors.onSurfaceVariant,
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: 6),
@@ -604,19 +602,19 @@ class _TimelineItem extends StatelessWidget {
                   vertical: 12,
                 ),
                 decoration: BoxDecoration(
-                  color: LumenDarkColors.surfaceContainerLow,
+                  color: Theme.of(context).colorScheme.surfaceContainerLow,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.06),
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.06),
                   ),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(count, style: tt.bodyMedium),
-                    const Icon(
+                      Icon(
                       Icons.chevron_right,
-                      color: LumenDarkColors.onSurfaceVariant,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ],
                 ),
@@ -648,3 +646,4 @@ class _LogEntry {
     required this.avatarUrl,
   });
 }
+

@@ -48,7 +48,7 @@ class AppShell extends StatelessWidget {
 // ──────────────────────────────────────────────────────────────────────────────
 
 class _AppHeader extends StatelessWidget {
-  const _AppHeader({super.key});
+  const _AppHeader();
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +159,7 @@ class _AppHeader extends StatelessWidget {
 }
 
 class _PulsingDot extends StatefulWidget {
-  const _PulsingDot({super.key});
+  const _PulsingDot();
 
   @override
   State<_PulsingDot> createState() => _PulsingDotState();
@@ -214,7 +214,7 @@ class _PulsingDotState extends State<_PulsingDot>
 // ──────────────────────────────────────────────────────────────────────────────
 
 class _AppBottomNav extends StatelessWidget {
-  const _AppBottomNav({super.key, required this.navigationShell});
+  const _AppBottomNav({required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 

@@ -51,39 +51,42 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     // Force dark aesthetic (the camera experience is always dark)
-    return Stack(
-      children: [
-        // Full-screen cinematic camera background
-        const _CameraBackground(),
-    
-        // Vignette overlay
-        Positioned.fill(
-          child: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.black54,
-                  Colors.transparent,
-                  Colors.transparent,
-                  Colors.black54,
-                ],
-                stops: [0.0, 0.25, 0.75, 1.0],
+    return Theme(
+      data: LumenTheme.dark(),
+      child: Stack(
+        children: [
+          // Full-screen cinematic camera background
+          const _CameraBackground(),
+     
+          // Vignette overlay
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black54,
+                    Colors.transparent,
+                    Colors.transparent,
+                    Colors.black54,
+                  ],
+                  stops: [0.0, 0.25, 0.75, 1.0],
+                ),
               ),
             ),
           ),
-        ),
-    
-        // Centered viewfinder with brackets + scan line + match panel
-        const _ViewfinderStack(),
-    
-        // Floating action buttons (register / mark / logs)
-        _ActionButtonGroup(onMarkAttendance: _markAttendance),
-    
-        // Custom success snackbar
-        if (_snackVisible) const _SuccessSnackbar(),
-      ],
+     
+          // Centered viewfinder with brackets + scan line + match panel
+          const _ViewfinderStack(),
+     
+          // Floating action buttons (register / mark / logs)
+          _ActionButtonGroup(onMarkAttendance: _markAttendance),
+     
+          // Custom success snackbar
+          if (_snackVisible) const _SuccessSnackbar(),
+        ],
+      ),
     );
   }
 }
@@ -93,7 +96,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 // ──────────────────────────────────────────────────────────────────────────────
 
 class _CameraBackground extends StatelessWidget {
-  const _CameraBackground({super.key});
+  const _CameraBackground();
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +105,7 @@ class _CameraBackground extends StatelessWidget {
       fit: BoxFit.cover,
       width: double.infinity,
       height: double.infinity,
-      errorBuilder: (_, _, _) => Container(color: LumenDarkColors.surface),
+      errorBuilder: (_, _, _) => Container(color: Theme.of(context).colorScheme.surface),
     );
   }
 }
@@ -112,7 +115,7 @@ class _CameraBackground extends StatelessWidget {
 // ──────────────────────────────────────────────────────────────────────────────
 
 class _ViewfinderStack extends StatelessWidget {
-  const _ViewfinderStack({super.key});
+  const _ViewfinderStack();
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +149,7 @@ class _ViewfinderStack extends StatelessWidget {
 }
 
 class _ViewfinderFrame extends StatelessWidget {
-  const _ViewfinderFrame({super.key, required this.size});
+  const _ViewfinderFrame({required this.size});
 
   final double size;
 
@@ -168,7 +171,7 @@ class _ViewfinderFrame extends StatelessWidget {
 }
 
 class _ScanLine extends StatefulWidget {
-  const _ScanLine({super.key, required this.size});
+  const _ScanLine({required this.size});
 
   final double size;
 
@@ -228,7 +231,7 @@ class _ScanLineState extends State<_ScanLine>
 }
 
 class _MatchResultPanel extends StatelessWidget {
-  const _MatchResultPanel({super.key});
+  const _MatchResultPanel();
 
   @override
   Widget build(BuildContext context) {
@@ -238,10 +241,10 @@ class _MatchResultPanel extends StatelessWidget {
       width: 264,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: LumenDarkColors.surface.withValues(alpha: 0.6),
+        color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: LumenDarkColors.secondary.withValues(alpha: 0.3),
+          color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.3),
         ),
       ),
       child: Row(
@@ -250,12 +253,12 @@ class _MatchResultPanel extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: LumenDarkColors.secondary.withValues(alpha: 0.18),
+              color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.18),
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child:   Icon(
               Icons.check_circle,
-              color: LumenDarkColors.secondary,
+              color: Theme.of(context).colorScheme.secondary,
               size: 26,
             ),
           ),
@@ -269,13 +272,13 @@ class _MatchResultPanel extends StatelessWidget {
                 style: tt.bodyLarge?.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: 15,
-                  color: LumenDarkColors.onSurface,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               Text(
                 '92% match detected',
                 style: tt.labelMedium?.copyWith(
-                  color: LumenDarkColors.secondary,
+                  color: Theme.of(context).colorScheme.secondary,
                   fontSize: 12,
                   letterSpacing: 0.3,
                 ),
@@ -293,7 +296,7 @@ class _MatchResultPanel extends StatelessWidget {
 // ──────────────────────────────────────────────────────────────────────────────
 
 class _ActionButtonGroup extends StatelessWidget {
-  const _ActionButtonGroup({super.key, required this.onMarkAttendance});
+  const _ActionButtonGroup({required this.onMarkAttendance});
 
   final VoidCallback onMarkAttendance;
 
@@ -320,19 +323,19 @@ class _ActionButtonGroup extends StatelessWidget {
                     width: 80,
                     height: 80,
                     decoration: BoxDecoration(
-                      color: LumenDarkColors.secondary,
+                      color: Theme.of(context).colorScheme.secondary,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: LumenDarkColors.secondary.withValues(alpha: 0.5),
+                          color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.5),
                           blurRadius: 30,
                           spreadRadius: 2,
                         ),
                       ],
                     ),
-                    child: const Icon(
+                    child:   Icon(
                       Icons.fingerprint,
-                      color: LumenDarkColors.onSecondary,
+                      color: Theme.of(context).colorScheme.onSecondary,
                       size: 38,
                     ),
                   ),
@@ -340,7 +343,7 @@ class _ActionButtonGroup extends StatelessWidget {
                   Text(
                     'MARK ATTENDANCE',
                     style: tt.labelMedium?.copyWith(
-                      color: LumenDarkColors.secondary,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 2.2,
                       fontSize: 11,
@@ -360,7 +363,6 @@ class _ActionButtonGroup extends StatelessWidget {
 
 class _GlassIconButton extends StatelessWidget {
   const _GlassIconButton({
-    super.key,
     required this.icon,
     required this.onPressed,
   });
@@ -376,11 +378,11 @@ class _GlassIconButton extends StatelessWidget {
         width: 56,
         height: 56,
         decoration: BoxDecoration(
-          color: LumenDarkColors.surface.withValues(alpha: 0.6),
+          color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.6),
           shape: BoxShape.circle,
-          border: Border.all(color: LumenDarkColors.outlineVariant, width: 1),
+          border: Border.all(color: Theme.of(context).colorScheme.outlineVariant, width: 1),
         ),
-        child: Icon(icon, color: LumenDarkColors.onSurface, size: 24),
+        child: Icon(icon, color: Theme.of(context).colorScheme.onSurface, size: 24),
       ),
     );
   }
@@ -391,7 +393,7 @@ class _GlassIconButton extends StatelessWidget {
 // ──────────────────────────────────────────────────────────────────────────────
 
 class _SuccessSnackbar extends StatelessWidget {
-  const _SuccessSnackbar({super.key});
+  const _SuccessSnackbar();
 
   @override
   Widget build(BuildContext context) {
@@ -407,10 +409,10 @@ class _SuccessSnackbar extends StatelessWidget {
           curve: Curves.easeOutCubic,
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 11),
           decoration: BoxDecoration(
-            color: LumenDarkColors.secondaryContainer,
+            color: Theme.of(context).colorScheme.secondaryContainer,
             borderRadius: BorderRadius.circular(999),
             border: Border.all(
-              color: LumenDarkColors.secondary.withValues(alpha: 0.2),
+              color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.2),
             ),
             boxShadow: const [
               BoxShadow(
@@ -423,16 +425,16 @@ class _SuccessSnackbar extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
+                Icon(
                 Icons.check_circle,
-                color: LumenDarkColors.onSecondaryContainer,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
                 size: 18,
               ),
               const SizedBox(width: 8),
               Text(
                 'Attendance marked successfully!',
                 style: tt.bodyMedium?.copyWith(
-                  color: LumenDarkColors.onSecondaryContainer,
+                  color: Theme.of(context).colorScheme.onSecondaryContainer,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -443,3 +445,4 @@ class _SuccessSnackbar extends StatelessWidget {
     );
   }
 }
+
