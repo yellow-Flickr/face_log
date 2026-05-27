@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:face_log/theme/app_colors.dart';
-import 'package:face_log/theme/app_theme.dart';
 import 'package:face_log/widget/bounding_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,42 +49,39 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     // Force dark aesthetic (the camera experience is always dark)
-    return Theme(
-      data: LumenTheme.dark(),
-      child: Stack(
-        children: [
-          // Full-screen cinematic camera background
-          const _CameraBackground(),
-     
-          // Vignette overlay
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black54,
-                    Colors.transparent,
-                    Colors.transparent,
-                    Colors.black54,
-                  ],
-                  stops: [0.0, 0.25, 0.75, 1.0],
-                ),
+    return Stack(
+      children: [
+        // Full-screen cinematic camera background
+        const _CameraBackground(),
+   
+        // Vignette overlay
+        Positioned.fill(
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black54,
+                  Colors.transparent,
+                  Colors.transparent,
+                  Colors.black54,
+                ],
+                stops: [0.0, 0.25, 0.75, 1.0],
               ),
             ),
           ),
-     
-          // Centered viewfinder with brackets + scan line + match panel
-          const _ViewfinderStack(),
-     
-          // Floating action buttons (register / mark / logs)
-          _ActionButtonGroup(onMarkAttendance: _markAttendance),
-     
-          // Custom success snackbar
-          if (_snackVisible) const _SuccessSnackbar(),
-        ],
-      ),
+        ),
+   
+        // Centered viewfinder with brackets + scan line + match panel
+        const _ViewfinderStack(),
+   
+        // Floating action buttons (register / mark / logs)
+        _ActionButtonGroup(onMarkAttendance: _markAttendance),
+   
+        // Custom success snackbar
+        if (_snackVisible) const _SuccessSnackbar(),
+      ],
     );
   }
 }

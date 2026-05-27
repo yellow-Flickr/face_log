@@ -1,6 +1,5 @@
 import 'package:face_log/theme/app_colors.dart';
 import 'package:face_log/theme/app_spacing.dart';
-import 'package:face_log/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 /// Employee Registration / Face Enrollment screen
@@ -79,50 +78,47 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: LumenTheme.light(),
-      child: Scaffold(
-        backgroundColor: LumenLightColors.background,
-        appBar: AppBar(
-          title: const Text('Attendance Pro'),
-          centerTitle: false,
-          backgroundColor: LumenLightColors.surface,
-          foregroundColor: LumenLightColors.primary,
-          elevation: 0,
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(1),
-            child: Container(height: 1, color: LumenLightColors.outlineVariant),
-          ),
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: AppBar(
+        title: const Text('Attendance Pro'),
+        centerTitle: false,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        foregroundColor: Theme.of(context).colorScheme.primary,
+        elevation: 0,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(height: 1, color: Theme.of(context).colorScheme.outlineVariant),
         ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(LumenSpacing.marginMobile),
-            child: Column(
-              children: [
-                // Two-column layout (stacks on mobile)
-                LayoutBuilder(
-                  builder: (context, constraints) {
-                    final isWide = constraints.maxWidth > 700;
-                    return isWide
-                        ? Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(child: _buildCameraSection()),
-                              const SizedBox(width: 24),
-                              Expanded(child: _buildFormSection()),
-                            ],
-                          )
-                        : Column(
-                            children: [
-                              _buildCameraSection(),
-                              const SizedBox(height: 24),
-                              _buildFormSection(),
-                            ],
-                          );
-                  },
-                ),
-              ],
-            ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(LumenSpacing.marginMobile),
+          child: Column(
+            children: [
+              // Two-column layout (stacks on mobile)
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final isWide = constraints.maxWidth > 700;
+                  return isWide
+                      ? Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(child: _buildCameraSection()),
+                            const SizedBox(width: 24),
+                            Expanded(child: _buildFormSection()),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            _buildCameraSection(),
+                            const SizedBox(height: 24),
+                            _buildFormSection(),
+                          ],
+                        );
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -136,7 +132,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: LumenLightColors.outlineVariant),
+            border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.06),
@@ -172,7 +168,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
                             height: 280,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: LumenLightColors.primaryContainer,
+                                color: Theme.of(context).colorScheme.primaryContainer,
                                 width: 3,
                               ),
                               borderRadius: BorderRadius.circular(140),
@@ -195,13 +191,13 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
                                   gradient: LinearGradient(
                                     colors: [
                                       Colors.transparent,
-                                      LumenLightColors.primary,
+                                      Theme.of(context).colorScheme.primary,
                                       Colors.transparent,
                                     ],
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: LumenLightColors.primary
+                                      color: Theme.of(context).colorScheme.primary
                                           .withValues(alpha: 0.6),
                                       blurRadius: 8,
                                     ),
@@ -248,7 +244,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
                         color: Colors.white.withValues(alpha: 0.92),
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: LumenLightColors.outlineVariant,
+                          color: Theme.of(context).colorScheme.outlineVariant,
                         ),
                       ),
                       child: Column(
@@ -264,7 +260,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
                                 'Good quality',
                                 style: Theme.of(context).textTheme.labelMedium
                                     ?.copyWith(
-                                      color: LumenLightColors.secondary,
+                                      color: Theme.of(context).colorScheme.secondary,
                                       fontWeight: FontWeight.w600,
                                     ),
                               ),
@@ -273,8 +269,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
                           const SizedBox(height: 6),
                           LinearProgressIndicator(
                             value: 0.85,
-                            backgroundColor: LumenLightColors.surfaceContainer,
-                            color: LumenLightColors.secondary,
+                            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+                            color: Theme.of(context).colorScheme.secondary,
                             minHeight: 6,
                             borderRadius: BorderRadius.circular(3),
                           ),
@@ -294,7 +290,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen>
           'Position your face within the oval. Ensure you are in a well-lit environment for optimal recognition.',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: LumenLightColors.onSurfaceVariant,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ),
       ],

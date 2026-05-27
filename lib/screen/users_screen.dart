@@ -1,8 +1,6 @@
 import 'package:face_log/theme/app_colors.dart';
 import 'package:face_log/theme/app_spacing.dart';
-import 'package:face_log/theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 /// User Management screen — adapted from the light-themed "Attendance Pro | User Management" design.
 /// Uses the Lumen light theme tokens (Hanken Grotesk + Inter + JetBrains Mono) and light color palette.
@@ -80,163 +78,59 @@ class _UsersScreenState extends State<UsersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Force the light Lumen theme to match the reference design
-    return Theme(
-      data: LumenTheme.light(),
-      child: Scaffold(
-        backgroundColor: LumenLightColors.background,
-        body: SafeArea(
-          child: Column(
-            children: [
-              // Header (light version, matching the HTML)
-              _LightHeader(),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: LumenSpacing.marginMobile,
+          vertical: 16,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Title + description
+            Text(
+              'Registered Users',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontSize: 28,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Manage facial recognition profiles and staff directories.',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: LumenSpacing.lg),
 
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: LumenSpacing.marginMobile,
-                    vertical: LumenSpacing.lg,
-                  ),
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 1100),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Title + description
-                        Text(
-                          'Registered Users',
-                          style: Theme.of(context).textTheme.headlineMedium
-                              ?.copyWith(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w600,
-                              ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Manage facial recognition profiles and staff directories.',
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: LumenLightColors.onSurfaceVariant,
-                              ),
-                        ),
-                        const SizedBox(height: LumenSpacing.lg),
+            // Search bar
+            _SearchBar(
+              onChanged: (value) => setState(() => _searchTerm = value),
+            ),
+            const SizedBox(height: LumenSpacing.lg),
 
-                        // Search bar
-                        _SearchBar(
-                          onChanged: (value) =>
-                              setState(() => _searchTerm = value),
-                        ),
-                        const SizedBox(height: LumenSpacing.lg),
+            // Bento summary cards
+            _StatsBento(),
+            const SizedBox(height: LumenSpacing.lg),
 
-                        // Bento summary cards
-                        _StatsBento(),
-                        const SizedBox(height: LumenSpacing.lg),
-
-                        _filteredUsers.isEmpty
-                            ? _EmptyState()
-                            : ListView.separated(
-                                itemCount: _filteredUsers.length,
-                                separatorBuilder: (_, _) =>
-                                    const SizedBox(height: 8),
-                                itemBuilder: (context, index) {
-                                  return _UserCard(
-                                    user: _filteredUsers[index],
-                                    onRetrain: () =>
-                                        _retrainUser(_filteredUsers[index]),
-                                    onDelete: () => _deleteUser(index),
-                                  );
-                                },
-                              ),
-                      ],
+            _filteredUsers.isEmpty
+                ? _EmptyState()
+                : Expanded(
+                    child: ListView.separated(
+                      itemCount: _filteredUsers.length,
+                      separatorBuilder: (_, _) => const SizedBox(height: 8),
+                      itemBuilder: (context, index) {
+                        return _UserCard(
+                          user: _filteredUsers[index],
+                          onRetrain: () => _retrainUser(_filteredUsers[index]),
+                          onDelete: () => _deleteUser(index),
+                        );
+                      },
                     ),
                   ),
-                ),
-              ),
-            ],
-          ),
+          ],
         ),
-
-        // FAB - Register New User
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => context.pushNamed('register'),
-          icon: const Icon(Icons.add),
-          label: const Text('Register User'),
-          backgroundColor: LumenLightColors.primaryContainer,
-          foregroundColor: LumenLightColors.onPrimaryContainer,
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      ),
-    );
-  }
-}
-
-// ──────────────────────────────────────────────────────────────────────────────
-// Light Header (Attendance Pro style)
-// ──────────────────────────────────────────────────────────────────────────────
-
-class _LightHeader extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 64,
-      padding: const EdgeInsets.symmetric(
-        horizontal: LumenSpacing.marginMobile,
-      ),
-      decoration: BoxDecoration(
-        color: LumenLightColors.surface,
-        border: Border(
-          bottom: BorderSide(color: LumenLightColors.outlineVariant),
-        ),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.face, color: LumenLightColors.primary, size: 26),
-          const SizedBox(width: 8),
-          Text(
-            'Attendance Pro',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: LumenLightColors.primary,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const Spacer(),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: LumenLightColors.surfaceContainerLow,
-              borderRadius: BorderRadius.circular(999),
-              border: Border.all(color: LumenLightColors.outlineVariant),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 8,
-                  height: 8,
-                  decoration: const BoxDecoration(
-                    color: LumenLightColors.secondary,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: 6),
-                Text(
-                  'OFFLINE',
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: LumenLightColors.onSurfaceVariant,
-                    fontSize: 11,
-                    letterSpacing: 0.8,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined),
-            color: LumenLightColors.onSurfaceVariant,
-            onPressed: () {},
-          ),
-        ],
       ),
     );
   }
@@ -332,16 +226,14 @@ class _StatsBento extends StatelessWidget {
       crossAxisSpacing: 8,
       childAspectRatio: 2.4,
       children: [
-        card('Total Users', '1,248', LumenLightColors.primary),
-        card('Departments', '12', LumenLightColors.primary),
-        card('Active Status', '98.2%', LumenLightColors.secondary),
-        card('Needs Retrain', '4', LumenLightColors.tertiary),
+        card('Total Users', '1,248', Theme.of(context).colorScheme.primary),
+        card('Departments', '12', Theme.of(context).colorScheme.primary),
+        card('Active Status', '98.2%', Theme.of(context).colorScheme.secondary),
+        card('Needs Retrain', '4', Theme.of(context).colorScheme.tertiary),
       ],
     );
   }
 }
-
-
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Local model
@@ -384,17 +276,20 @@ class _UserCard extends StatelessWidget {
     final tt = Theme.of(context).textTheme;
 
     final (statusLabel, statusColor) = switch (user.status) {
-      _UserStatus.punctual => ('Punctual', LumenDarkColors.secondary),
-      _UserStatus.remote => ('Remote', LumenDarkColors.primary),
-      _UserStatus.late => ('Late', LumenDarkColors.error),
+      _UserStatus.punctual => (
+        'Punctual',
+        Theme.of(context).colorScheme.secondary,
+      ),
+      _UserStatus.remote => ('Remote', Theme.of(context).colorScheme.primary),
+      _UserStatus.late => ('Late', Theme.of(context).colorScheme.error),
     };
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: LumenDarkColors.surfaceContainer,
+        color: Theme.of(context).colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: LumenDarkColors.outlineVariant),
+        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
       ),
       child: Row(
         children: [
@@ -404,7 +299,7 @@ class _UserCard extends StatelessWidget {
             height: 56,
             decoration: BoxDecoration(
               border: Border.all(
-                color: LumenDarkColors.outlineVariant,
+                color: Theme.of(context).colorScheme.outlineVariant,
                 width: 2,
               ),
               borderRadius: BorderRadius.circular(999),
@@ -415,7 +310,7 @@ class _UserCard extends StatelessWidget {
                 user.avatarUrl,
                 fit: BoxFit.cover,
                 errorBuilder: (_, _, _) => Container(
-                  color: LumenDarkColors.surfaceContainerHigh,
+                  color: Theme.of(context).colorScheme.surfaceContainerHigh,
                   child: const Icon(Icons.person, color: Colors.white30),
                 ),
               ),
@@ -469,13 +364,13 @@ class _UserCard extends StatelessWidget {
                 Text(
                   'ID: ${user.employeeId}',
                   style: tt.labelMedium?.copyWith(
-                    color: LumenDarkColors.onSurfaceVariant,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
                 Text(
                   user.department,
                   style: tt.labelMedium?.copyWith(
-                    color: LumenDarkColors.onSurfaceVariant,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -489,14 +384,14 @@ class _UserCard extends StatelessWidget {
             children: [
               IconButton(
                 icon: const Icon(Icons.face_retouching_natural, size: 22),
-                color: LumenDarkColors.primaryContainer,
+                color: Theme.of(context).colorScheme.primaryContainer,
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
                 onPressed: onRetrain,
               ),
               IconButton(
                 icon: const Icon(Icons.delete, size: 22),
-                color: LumenDarkColors.error,
+                color: Theme.of(context).colorScheme.error,
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
                 onPressed: onDelete,

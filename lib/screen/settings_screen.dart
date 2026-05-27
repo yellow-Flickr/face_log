@@ -1,6 +1,5 @@
 import 'package:face_log/theme/app_colors.dart';
 import 'package:face_log/theme/app_spacing.dart';
-import 'package:face_log/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 /// Settings screen — light theme version adapted from the "Attendance Pro - Settings" HTML.
@@ -18,277 +17,270 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Force light Lumen theme to match the reference design
-    return Theme(
-      data: LumenTheme.light(),
-      child: Scaffold(
-        backgroundColor: LumenLightColors.background,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
+    return SafeArea(
+      child: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
 
-            padding: const EdgeInsets.symmetric(
-              horizontal: LumenSpacing.marginMobile,
-              vertical: 16,
-            ),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 720),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.symmetric(
+          horizontal: LumenSpacing.marginMobile,
+          vertical: 16,
+        ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 720),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Page title
+              Text(
+                'System Settings',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Configure your device recognition engine and local database.',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // RECOGNITION SECTION
+              _SectionCard(
+                title: 'Recognition',
                 children: [
-                  // Page title
-                  Text(
-                    'System Settings',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Configure your device recognition engine and local database.',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: LumenLightColors.onSurfaceVariant,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // RECOGNITION SECTION
-                  _SectionCard(
-                    title: 'Recognition',
+                  // Confidence Threshold
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Confidence Threshold
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Confidence Threshold',
-                                    style: Theme.of(context).textTheme.bodyLarge
-                                        ?.copyWith(fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(
-                                    'Minimum accuracy required for valid match',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color:
-                                              LumenLightColors.onSurfaceVariant,
-                                        ),
-                                  ),
-                                ],
+                              Text(
+                                'Confidence Threshold',
+                                style: Theme.of(context).textTheme.bodyLarge
+                                    ?.copyWith(fontWeight: FontWeight.w500),
                               ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: LumenLightColors.primaryContainer,
-                                  borderRadius: BorderRadius.circular(999),
-                                ),
-                                child: Text(
-                                  '${_confidenceThreshold.round()}%',
-                                  style: Theme.of(context).textTheme.labelMedium
-                                      ?.copyWith(
-                                        color:
-                                            LumenLightColors.onPrimaryContainer,
-                                      ),
-                                ),
+                              Text(
+                                'Minimum accuracy required for valid match',
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurfaceVariant,
+                                    ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 8),
-                          SliderTheme(
-                            data: SliderTheme.of(context).copyWith(
-                              trackHeight: 4,
-                              thumbShape: const RoundSliderThumbShape(
-                                enabledThumbRadius: 9,
-                              ),
-                              overlayShape: const RoundSliderOverlayShape(
-                                overlayRadius: 16,
-                              ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
                             ),
-                            child: Slider(
-                              value: _confidenceThreshold,
-                              min: 0,
-                              max: 100,
-                              divisions: 20,
-                              activeColor: LumenLightColors.primary,
-                              inactiveColor: LumenLightColors.outlineVariant,
-                              onChanged: (value) {
-                                setState(() => _confidenceThreshold = value);
-                              },
+                            decoration: BoxDecoration(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primaryContainer,
+                              borderRadius: BorderRadius.circular(999),
+                            ),
+                            child: Text(
+                              '${_confidenceThreshold.round()}%',
+                              style: Theme.of(context).textTheme.labelMedium
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimaryContainer,
+                                  ),
                             ),
                           ),
                         ],
                       ),
-
-                      const Divider(height: 1),
-
-                      // Camera Toggle
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Camera Selection Toggle',
-                                  style: Theme.of(context).textTheme.bodyLarge
-                                      ?.copyWith(fontWeight: FontWeight.w500),
-                                ),
-                                Text(
-                                  'Enable manual camera switching in view',
-                                  style: Theme.of(context).textTheme.bodyMedium
-                                      ?.copyWith(
-                                        color:
-                                            LumenLightColors.onSurfaceVariant,
-                                      ),
-                                ),
-                              ],
-                            ),
+                      const SizedBox(height: 8),
+                      SliderTheme(
+                        data: SliderTheme.of(context).copyWith(
+                          trackHeight: 4,
+                          thumbShape: const RoundSliderThumbShape(
+                            enabledThumbRadius: 9,
                           ),
-                          Switch(
-                            value: _cameraToggle,
-                            onChanged: (val) =>
-                                setState(() => _cameraToggle = val),
-                            activeThumbColor: LumenLightColors.primary,
+                          overlayShape: const RoundSliderOverlayShape(
+                            overlayRadius: 16,
                           ),
-                        ],
+                        ),
+                        child: Slider(
+                          value: _confidenceThreshold,
+                          min: 0,
+                          max: 100,
+                          divisions: 20,
+                          activeColor: Theme.of(context).colorScheme.primary,
+                          inactiveColor: Theme.of(
+                            context,
+                          ).colorScheme.outlineVariant,
+                          onChanged: (value) {
+                            setState(() => _confidenceThreshold = value);
+                          },
+                        ),
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 16),
+                  const Divider(height: 1),
 
-                  // DATABASE SECTION
-                  _SectionCard(
-                    title: 'Database',
+                  // Camera Toggle
+                  Row(
                     children: [
-                      _ActionRow(
-                        icon: Icons.file_download,
-                        title: 'Export CSV',
-                        subtitle: 'Download all attendance logs as spreadsheet',
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Exporting attendance as CSV...'),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Camera Selection Toggle',
+                              style: Theme.of(context).textTheme.bodyLarge
+                                  ?.copyWith(fontWeight: FontWeight.w500),
                             ),
-                          );
-                        },
+                            Text(
+                              'Enable manual camera switching in view',
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
-                      _ActionRow(
-                        icon: Icons.delete_sweep,
-                        title: 'Clear Logs',
-                        subtitle: 'Permanently delete activity history',
-                        isDestructive: true,
-                        onTap: () {
-                          _showConfirmDialog(
-                            title: 'Clear Logs?',
-                            message:
-                                'This will permanently delete all attendance history.',
-                            confirmText: 'Clear',
-                            onConfirm: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Logs cleared')),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                      _ActionRow(
-                        icon: Icons.restart_alt,
-                        title: 'Reset App',
-                        subtitle: 'Wipe all local data and configurations',
-                        isDestructive: true,
-                        onTap: () {
-                          _showConfirmDialog(
-                            title: 'Reset App?',
-                            message:
-                                'This will erase everything. This action cannot be undone.',
-                            confirmText: 'Reset',
-                            onConfirm: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('App has been reset'),
-                                ),
-                              );
-                            },
-                          );
-                        },
+                      Switch(
+                        value: _cameraToggle,
+                        onChanged: (val) => setState(() => _cameraToggle = val),
+                        activeThumbColor: Theme.of(context).colorScheme.primary,
                       ),
                     ],
                   ),
-
-                  const SizedBox(height: 16),
-
-                  // SYSTEM INFO
-                  _SectionCard(
-                    title: 'System Info',
-                    children: [
-                      _InfoRow(label: 'Model Version', value: 'v2.4.8-STABLE'),
-                      _InfoRow(label: 'DB Size', value: '142.5 MB'),
-                    ],
-                  ),
-
-                  const SizedBox(height: 32),
-
-                  // Secure Node Footer
-                  Center(
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 64,
-                          height: 64,
-                          decoration: BoxDecoration(
-                            color: LumenLightColors.surfaceContainerHigh,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: LumenLightColors.outlineVariant,
-                            ),
-                          ),
-                          child: ClipOval(
-                            child: Image.network(
-                              'https://lh3.googleusercontent.com/aida-public/AB6AXuCzALYfuFLrCSAcZYu8TXqe9rKa3Bt1vrIh-A3Ey2cbZ9XzhChvJ9FXnVFmIRM9G9H4yfKz9r1WzPAllNZztMuzDlR4kWBvzth0TRhgHSxQ-fgYL6n4MQEH_-Dg94yipm7CoMriJG-syvilaOCUZWjuey_UiTvzz2CMSQVQXbUXYnicpMpx-thZKZMTI5bO49JWJ8jbCHz7pgWlklTSpNIxviGx_sPpg3KQSFaqHL4n2reI2vg_enO_wI2u0cI7sFoPAmlxs68MvRY',
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, _, _) => const Icon(
-                                Icons.security,
-                                color: Colors.black26,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'SECURE ENCRYPTED NODE',
-                          style: Theme.of(context).textTheme.labelMedium
-                              ?.copyWith(
-                                color: LumenLightColors.onSurfaceVariant,
-                                letterSpacing: 1.5,
-                              ),
-                        ),
-                        Text(
-                          'ID: AP-9942-XJ',
-                          style: Theme.of(context).textTheme.labelMedium
-                              ?.copyWith(
-                                color: LumenLightColors.onSurfaceVariant,
-                              ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 40),
                 ],
               ),
-            ),
+
+              const SizedBox(height: 16),
+
+              // DATABASE SECTION
+              _SectionCard(
+                title: 'Database',
+                children: [
+                  _ActionRow(
+                    icon: Icons.file_download,
+                    title: 'Export CSV',
+                    subtitle: 'Download all attendance logs as spreadsheet',
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Exporting attendance as CSV...'),
+                        ),
+                      );
+                    },
+                  ),
+                  _ActionRow(
+                    icon: Icons.delete_sweep,
+                    title: 'Clear Logs',
+                    subtitle: 'Permanently delete activity history',
+                    isDestructive: true,
+                    onTap: () {
+                      _showConfirmDialog(
+                        title: 'Clear Logs?',
+                        message:
+                            'This will permanently delete all attendance history.',
+                        confirmText: 'Clear',
+                        onConfirm: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Logs cleared')),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  _ActionRow(
+                    icon: Icons.restart_alt,
+                    title: 'Reset App',
+                    subtitle: 'Wipe all local data and configurations',
+                    isDestructive: true,
+                    onTap: () {
+                      _showConfirmDialog(
+                        title: 'Reset App?',
+                        message:
+                            'This will erase everything. This action cannot be undone.',
+                        confirmText: 'Reset',
+                        onConfirm: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('App has been reset')),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 16),
+
+              // SYSTEM INFO
+              _SectionCard(
+                title: 'System Info',
+                children: [
+                  _InfoRow(label: 'Model Version', value: 'v2.4.8-STABLE'),
+                  _InfoRow(label: 'DB Size', value: '142.5 MB'),
+                ],
+              ),
+
+              const SizedBox(height: 32),
+
+              // Secure Node Footer
+              Center(
+                child: Column(
+                  children: [
+                    Container(
+                      width: 64,
+                      height: 64,
+                      decoration: BoxDecoration(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainerHigh,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Theme.of(context).colorScheme.outlineVariant,
+                        ),
+                      ),
+                      child: ClipOval(
+                        child: Image.network(
+                          'https://lh3.googleusercontent.com/aida-public/AB6AXuCzALYfuFLrCSAcZYu8TXqe9rKa3Bt1vrIh-A3Ey2cbZ9XzhChvJ9FXnVFmIRM9G9H4yfKz9r1WzPAllNZztMuzDlR4kWBvzth0TRhgHSxQ-fgYL6n4MQEH_-Dg94yipm7CoMriJG-syvilaOCUZWjuey_UiTvzz2CMSQVQXbUXYnicpMpx-thZKZMTI5bO49JWJ8jbCHz7pgWlklTSpNIxviGx_sPpg3KQSFaqHL4n2reI2vg_enO_wI2u0cI7sFoPAmlxs68MvRY',
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, _, _) =>
+                              const Icon(Icons.security, color: Colors.black26),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'SECURE ENCRYPTED NODE',
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        letterSpacing: 1.5,
+                      ),
+                    ),
+                    Text(
+                      'ID: AP-9942-XJ',
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 40),
+            ],
           ),
         ),
       ),
@@ -394,11 +386,11 @@ class _ActionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = isDestructive
-        ? LumenLightColors.error
-        : LumenLightColors.onSurface;
+        ? Theme.of(context).colorScheme.error
+        : Theme.of(context).colorScheme.onSurface;
     final iconColor = isDestructive
-        ? LumenLightColors.error
-        : LumenLightColors.onSurfaceVariant;
+        ? Theme.of(context).colorScheme.error
+        : Theme.of(context).colorScheme.onSurfaceVariant;
 
     return InkWell(
       onTap: onTap,
@@ -422,7 +414,7 @@ class _ActionRow extends StatelessWidget {
                   Text(
                     subtitle,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: LumenLightColors.onSurfaceVariant,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ),
                 ],
@@ -431,8 +423,8 @@ class _ActionRow extends StatelessWidget {
             Icon(
               Icons.chevron_right,
               color: isDestructive
-                  ? LumenLightColors.error
-                  : LumenLightColors.outline,
+                  ? Theme.of(context).colorScheme.error
+                  : Theme.of(context).colorScheme.outline,
             ),
           ],
         ),
@@ -462,14 +454,16 @@ class _InfoRow extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: LumenLightColors.surfaceContainerHigh,
+              color: Theme.of(context).colorScheme.surfaceContainerHigh,
               borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: LumenLightColors.outlineVariant),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.outlineVariant,
+              ),
             ),
             child: Text(
               value,
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: LumenLightColors.onSurfaceVariant,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
           ),

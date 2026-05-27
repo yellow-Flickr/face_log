@@ -1,4 +1,3 @@
-import 'package:face_log/theme/app_colors.dart';
 import 'package:face_log/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -580,7 +579,7 @@ class _TimelineItem extends StatelessWidget {
                 ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).colorScheme.outlineVariant,
             shape: BoxShape.circle,
-            border: Border.all(color: Theme.of(context).colorScheme.background, width: 4),
+            border: Border.all(color: Theme.of(context).colorScheme.surface, width: 4),
           ),
         ),
         Expanded(
